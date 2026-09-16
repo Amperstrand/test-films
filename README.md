@@ -84,7 +84,8 @@ complete manuscript for a generic two-party protocol handshake.
 | `docs/09-make-and-ci.md` | Make targets, CI jobs, gates, publishing policy |
 | `docs/10-spec-quotes.md` | Verbatim spec-quote anchoring and drift detection |
 | `docs/lessons-learned.md` | The master list of earned lessons |
-| `templates/` | Manuscript, layered-summary, and Makefile skeletons |
+| `templates/` | Manuscript, layered-summary, Makefile skeletons, and the browser-recording chrome kit (`film-chrome.ts`) |
+| `tools/narrate-film.sh` | Synthesize, rate-fit, align, and mix a voice-over onto a recorded film from its timeline |
 | `prompts/` | AI-agent prompt for producing a film from a test |
 | `examples/` | Sanitized worked examples |
 

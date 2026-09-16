@@ -268,6 +268,16 @@ ffmpeg post pass.
     describe the previous take while the current run failed at load;
     gate on the runner's own pass/fail line.
 
+65. **Bridge system waits with live cards, never dead air.**
+    A card that holds until its predicate passes (settlement confirmed,
+    sync observed) turns the film's slowest real seconds into narration
+    surface instead of a frozen frame the viewer scrub past.
+66. **Record where the CPU is; synthesize where the voice is.**
+    The capture wants the beefy quiet box; the OS speech synthesizer and
+    the post pass live on the presenter's workstation — the
+    runner-emitted timeline is what lets the two halves meet later
+    without either machine knowing about the other.
+
 ## Adding a lesson to this file
 
 One lesson = one mechanism = one entry: rule (imperative), mechanism
