@@ -209,6 +209,65 @@ Sources are genericized per the anonymity law (AGENTS.md).
     Rebuild the quote pack from pins and compare; an in-place-edited
     corpus must fail instead of re-authorizing drifted quotes.
 
+## Browser-recorded product films (overlay, pacing, narration post pass)
+
+Lessons 56–64 come from a round of phone-viewport product films
+recorded straight out of a browser test runner: on-screen card
+chrome, a live companion device view, synthesized voice-over, and an
+ffmpeg post pass.
+
+56. **Fixed overlays are click-through or they eat the driver.**
+    A fixed-position companion view with default pointer events sits
+    above the UI under test; the automation driver retries clicks
+    under it for the whole action budget (a visibly jittering
+    recording) and then fails on a control that is present.
+    `pointer-events: none` on every display-only overlay.
+57. **Companion overlays: at least a fifth of the frame width, placed
+    where the point of interest is not, arriving when the narration
+    starts.**
+    Below roughly 20 percent of frame width a companion readout stops
+    reading; the overlay lives in the calm region of the shot (study
+    a frame, find it); an element that exists from frame zero is
+    furniture, while one that boots at the narrated moment is a
+    character.
+58. **Transient character, persistent record.**
+    A second view that matters for one scene (a device's own display)
+    arrives at the event, runs while the scene lives, and fades; a
+    compact strip persists afterwards as the standing record.
+    One permanent overlay trying to be both occludes or decays.
+59. **Every surface of the same fact reads the same live source.**
+    A companion view derives its numbers from the same feed or DOM
+    the primary surface renders — never from a parallel simulation.
+    Two sources drift apart on camera, and drift on camera is a lie
+    with a graph on it.
+60. **Card pacing is computed from reading speed, not guessed.**
+    Words divided by a words-per-second rate plus entry slack, with a
+    floor of about three seconds; fixed guesses produced cards that
+    vanished before a human finished the first line.
+61. **The runner emits the narration timeline; the post pass consumes
+    it.**
+    Every on-screen card records its window and its spoken line at
+    runtime into a JSON timeline; narration sync becomes data
+    plumbing instead of manual measurement.
+    Hand-synced voice drifts a little per re-cut until it is wrong
+    everywhere.
+62. **Rate-fit each synthesized line to its window.**
+    Synthesize, measure the take, time-stretch it (clamped, about
+    1.45x at most) into the card's window, pad when short, and anchor
+    the timeline to the recording's start with a small offset — the
+    recording begins before the first page loads.
+63. **Mix delayed segments over a silent bed with
+    `duration=longest`; re-encode browser video into the delivery
+    container.**
+    An `amix` built with `duration=first` ends the whole track at the
+    first (short) segment — a film that goes silent after its opening
+    line; and browser-recorded VP8 cannot be stream-copied into MP4,
+    so the final render re-encodes video.
+64. **Read the verdict line, not the artifact line.**
+    Post-run artifact reports (a file path plus a duration) can
+    describe the previous take while the current run failed at load;
+    gate on the runner's own pass/fail line.
+
 ## Adding a lesson to this file
 
 One lesson = one mechanism = one entry: rule (imperative), mechanism

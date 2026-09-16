@@ -73,6 +73,25 @@ screens:
    difference between dashboards that render your films and ones
    that show nulls.)
 
+## Companion and device-view overlays (live second surfaces)
+
+When the film shows a second surface live — a device's own display, a
+public status page, a telemetry strip — four rules keep it a
+character instead of a smear:
+
+1. Click-through always: display-only overlays carry
+   `pointer-events: none`, or the automation driver fights them for
+   every click under their footprint.
+2. Size and place for readability: at least a fifth of the frame
+   width; position in the shot's calm region (study a frame to find
+   where the point of interest is NOT); a portrait-shaped source
+   view becomes a corner bubble, not a tall pillar over the UI.
+3. Arrive at the narrated moment and persist as a compact record:
+   the second surface boots when its scene starts (arrival draws the
+   eye), fades when it ends, and leaves a standing summary strip.
+4. One truth: the companion renders the same live feed (or DOM) as
+   the primary surface, never a parallel simulation of it.
+
 ## Caption discipline
 
 - Captions are generated from the accurate (verbatim) gradepack;
