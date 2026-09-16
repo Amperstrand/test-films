@@ -86,7 +86,9 @@ complete manuscript for a generic two-party protocol handshake.
 | `docs/lessons-learned.md` | The master list of earned lessons |
 | `templates/` | Manuscript, layered-summary, Makefile skeletons, and the browser-recording chrome kit (`film-chrome.ts`) |
 | `tools/narrate-film.sh` | Synthesize, rate-fit, align, and mix a voice-over onto a recorded film from its timeline |
-| `prompts/` | AI-agent prompt for producing a film from a test |
+| `tools/record-film.sh` | Run a recording lane on a beefier remote box; pull video, stills, and timeline back |
+| `tools/frames.sh` | Extract stills at timestamps for frame-by-frame review |
+| `prompts/` | AI-agent prompts: film-from-test, film-script (owner-reviewed), narration-lines, frame-review |
 | `examples/` | Sanitized worked examples |
 
 ## The anonymity law
