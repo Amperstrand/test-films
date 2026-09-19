@@ -83,6 +83,7 @@ complete manuscript for a generic two-party protocol handshake.
 | `docs/08-overlays.md` | Diagrams, captions, report pages, dashboards |
 | `docs/09-make-and-ci.md` | Make targets, CI jobs, gates, publishing policy |
 | `docs/10-spec-quotes.md` | Verbatim spec-quote anchoring and drift detection |
+| `docs/11-factory.md` | Film matrices: scenario enumeration, composite recording, gate batteries |
 | `docs/lessons-learned.md` | The master list of earned lessons |
 | `templates/` | Manuscript, layered-summary, and Makefile skeletons |
 | `prompts/` | AI-agent prompt for producing a film from a test |

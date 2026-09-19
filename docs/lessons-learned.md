@@ -209,6 +209,72 @@ Sources are genericized per the anonymity law (AGENTS.md).
     Rebuild the quote pack from pins and compare; an in-place-edited
     corpus must fail instead of re-authorizing drifted quotes.
 
+56. **Record the lanes in one viewport; sync by construction.**
+   Aligning independently recorded lanes relies on clock trust across
+   machines; composition removes the degree of freedom entirely.
+   Earned: a four-lane order film (client, order backend, payment rail,
+   Lightning node) shot as one composite take; per-lane re-shoots
+   attempted later could not have supported ordering asserts on the
+   merged timeline.
+
+## Film factory
+
+57. **Audience layers multiply at render time, not at footage time.**
+   Re-recording a scenario per audience multiplies cost and lets
+   "identical" takes drift; one footage truth per scenario with N
+   narration renders keeps films comparable.
+   Earned: a fifteen-cell scenario matrix rendered to forty-five films
+   (three audiences) with gates asserting identical event sequences
+   across the audience variants of each cell.
+
+58. **Failure-path filming disarms success helpers.**
+   A standing auto-settler (installed so demos finish hands-free) paid
+   obligations inside shortened failure windows, so expiry cells failed
+   as "settled anyway".
+   Earned: the failure group only recorded correctly with the settler's
+   systemd timer paused for that group, then restored and verified.
+
+59. **Kill the supervisor tree between environment groups.**
+   An orchestrator that stops only the listener leaves the supervisor
+   alive; it respawns the listener with the previous group's config, and
+   the next take silently runs the wrong environment.
+   Earned: a "settlement disabled" group whose invoices kept settling;
+   the take had run against a respawned stale-config server.
+
+60. **Inventory shared state directories before blaming external actors.**
+   Two dev servers on one checkout with separate ports shared one state
+   directory; alarms and background turns of one executed against the
+   other's data.
+   Earned: hours spent suspecting an innocent second instance while the
+   real actor was a timer on a remote host; the state directory was the
+   first thing that separated the suspects.
+
+61. **When the log omits the event, diff the state.**
+   A Lightning node at info level logs nothing for invoice settlement,
+   yet settlement is visible in list calls.
+   Earned: a payment lane that stayed empty while payments settled;
+   a one-second poll-diff over `listinvoices` reconstructed the lane
+   from real state.
+
+62. **Slide the window; never parse a failed fetch as empty.**
+   Windowed polling of a growing list must re-anchor the window each
+   poll; a failed initial fetch parsed as an empty list pins the window
+   to the oldest items and the watcher dies silently.
+   Earned: a telemetry poller that emitted nothing for whole takes
+   because its one slow boot fetch fell back to "zero items".
+
+63. **Local settlement leaves no outbound record.**
+   A node that settles its own obligation marks it settled without any
+   outbound payment entry.
+   Earned: "no outbound payment" was read as "nobody paid" while the
+   invoice was settled locally by the node itself.
+
+64. **Render derived units beside raw units.**
+   A system reporting millisatoshi is read as satoshi by humans; the
+   1000x phantom propagates into incident reports and screenshots.
+   Earned: a "wrong by 1000x" invoice complaint that was a display-unit
+   misread; every human surface now carries satoshi beside BTC.
+
 ## Adding a lesson to this file
 
 One lesson = one mechanism = one entry: rule (imperative), mechanism
