@@ -66,7 +66,21 @@ happen; asserting on it turns every render into a test.
    Each line gets the window until the next line; synthesize per line,
    tempo-fit when a line outgrows its window, pad the mixed track to the
    footage length.
-5. **Gate every film.**
+5. **Draw the protocol while it runs.**
+   The same narration events that feed the log feed a live sequence
+   diagram: one lifeline per participant, one arrow per mapped event,
+   self-messages for local decisions, and a `T+ss.mmm` stamp on every
+   arrow and log line.
+   The diagram is the merged timeline drawn instead of printed — a
+   viewer sees causality at speaking speed, where a text log only
+   supports it after study.
+6. **Render voice over clean footage.**
+   Narration audio lands on the composite recording; captions and
+   scene titles live in the artifacts beside the film (subtitle file,
+   manuscript), never burned into the pixels.
+   Burned text duplicates the voice track, dates the footage, and
+   fights the composition for attention.
+7. **Gate every film.**
    The gate battery per film:
    sequence asserts (the events the scenario promises, in order),
    forbidden-event asserts (failure paths must contain no success
@@ -75,12 +89,12 @@ happen; asserting on it turns every render into a test.
    audio measurement inside a cue span,
    and a cross-system check (the durable registry state the footage
    claims to produce).
-6. **Make the pipeline resumable.**
+8. **Make the pipeline resumable.**
    A take that exists is skipped; a film that exists is re-gated, not
    re-rendered.
    A multi-hour matrix survives interruption and gate fixes without
    re-recording.
-7. **Generate the reel from the table.**
+9. **Generate the reel from the table.**
    The index page links films, manuscripts, and timelines from the same
    scenario table that drove the run — no hand-maintained lists.
 
@@ -111,6 +125,21 @@ happen; asserting on it turns every render into a test.
   Polling the tail of a growing list must re-anchor the window each
   poll; a failed initial fetch read as an empty list pins the window to
   the oldest items and the watcher dies silently.
+- **Budget the viewport before filming.**
+  Panels added after the layout was set steal pixels from the
+  protagonist; a status bar under a full-height phone crops the
+  composer out of every frame.
+  Sum the chrome (padding, bars, gaps) against the viewport before
+  the first take, and verify with a frame, not a mental model.
+- **One visible actor per causal arrow.**
+  An external auto-settler that pays obligations on a wall-clock
+  schedule produces payments with no sender in the diagram — effects
+  without causes.
+  Pause standing success-helpers while recording so the visible
+  participant performs every step of the story, then restore them.
+- **Stamp merged logs in milliseconds.**
+  Second-resolution stamps order events that a diagram must sequence;
+  `T+ss.mmm` keeps the log and the arrows agreeing.
 - **Probe audio at cue starts.**
   Cue-end timestamps measure the gaps between lines; a gate reading
   silence there fails films that are fine.

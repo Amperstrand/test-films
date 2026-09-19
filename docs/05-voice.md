@@ -114,6 +114,27 @@ rebooting" converts a 3-minute stare into an eyes-free procedure.
 The same events that feed the timeline are the ones worth saying out
 loud — emit narration, get voice for free.
 
+## Synthesized narration that does not sound synthetic
+
+Robotic narration is a choice, not a constraint.
+A small local neural model turns a manuscript into speech that
+reviewers stop noticing:
+
+- **Model**: Kokoro-82M (public, ONNX, ~330 MB plus a voice pack).
+  Loads in about a second, synthesizes faster than real time on CPU.
+- **One process per line** keeps memory flat when rendering a matrix;
+  the one-second load cost is cheaper than a resident server for
+  short runs.
+- **Declare the recipe** like any model input: voice id, speed factor,
+  output gain — in the manifest, so the series stays consistent and
+  regenerations do not drift.
+- **GPU is optional**: the CUDA execution provider needs the matching
+  system CUDA and cuDNN libraries; without them the model silently
+  falls back to CPU, which is already real time.
+  Do not spend an hour installing CUDA to save two minutes of render.
+- Keep the deterministic robotic synthesizer around for one job:
+  test fixtures that must sound identical on every machine.
+
 ## Pitfalls
 
 - Transcribing everything "because storage is cheap" — GPU-hours are
@@ -125,6 +146,8 @@ loud — emit narration, get voice for free.
   local.
 - Undeclared model/voice settings — regeneration drift makes the
   film series inconsistent over time.
+- Gate audio at cue STARTS, not cue ends — the end timestamps of
+  healthy narration measure the silence between lines.
 
 ## References
 

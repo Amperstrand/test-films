@@ -275,6 +275,48 @@ Sources are genericized per the anonymity law (AGENTS.md).
    Earned: a "wrong by 1000x" invoice complaint that was a display-unit
    misread; every human surface now carries satoshi beside BTC.
 
+65. **Budget the viewport before the first take.**
+   Chrome added after layout steals pixels from the protagonist.
+   Earned: a status bar under a full-height phone cropped the
+   composer out of every frame of a recorded matrix; the fix was
+   layout arithmetic plus one frame inspection, not re-recording
+   discipline.
+
+66. **The protocol view is the timeline drawn, not authored.**
+   Mapping narration events onto live sequence arrows (one lifeline
+   per participant) shows causality at speaking speed.
+   Earned: a four-participant payment story followed on screen where
+   the printed timeline needed study; the arrow mapping was a table
+   over the same events, no new instrumentation.
+
+67. **Voice over clean footage; captions live beside the film.**
+   Burned-in text duplicates the narration, dates the footage, and
+   fights the composition for attention.
+   Earned: a narrated matrix re-rendered without subtitles or scene
+   titles read better and aged better; subtitle files kept serving
+   players that want them.
+
+68. **Natural narration is a local model away.**
+   An 82M-parameter public model synthesizes faster than real time on
+   CPU; the robotic voice was a habit, not a constraint.
+   Earned: switching the synthesizer changed nothing in the pipeline
+   except one command and two declared settings (voice, speed).
+   The GPU execution provider needs matching system CUDA libraries —
+   without them it falls back to CPU silently, and CPU is enough.
+
+69. **One visible actor per causal arrow.**
+   A standing auto-settler on a wall clock makes payments appear
+   causeless in the diagram — effects without senders.
+   Earned: recordings where the invoice settled with no self-pay
+   arrow; pausing the external settler during recording put the
+   visible participant back in the causal chain.
+
+70. **Stamp merged logs in milliseconds.**
+   A diagram that sequences events a log cannot order at second
+   resolution will contradict itself on camera.
+   Earned: `T+ss.mmm` stamps on every merged line kept the log lane
+   and the live arrows agreeing during fast settlement sequences.
+
 ## Adding a lesson to this file
 
 One lesson = one mechanism = one entry: rule (imperative), mechanism
