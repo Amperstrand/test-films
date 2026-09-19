@@ -317,6 +317,31 @@ Sources are genericized per the anonymity law (AGENTS.md).
    Earned: `T+ss.mmm` stamps on every merged line kept the log lane
    and the live arrows agreeing during fast settlement sequences.
 
+71. **Namespace injected class names; never let data meet layout CSS.**
+   Rendering log lines tagged by participant, a lane named "phone"
+   collided with the page's `.phone` shell rule (a fixed-height bezel):
+   the first row became 876 pixels tall and every later row painted
+   below the clip — a full log panel that rendered as one line.
+   Earned: a film matrix where every gate passed except pixel reality;
+   the fix was namespacing lane classes (`l-phone`) and renaming the
+   layout class, plus a footage gate that counts painted lines.
+
+72. **Dynamic viewport units misreport inside cross-origin iframes.**
+   `100dvh` in an app embedded by a composition page computed ~46 pixels
+   short in headless Chromium, so the app's composer never reached the
+   frame bottom and a dead band read as a cropped phone at any iframe
+   height.
+   Earned: layout arithmetic (sum the chrome, clip the bezel to the
+   app's real extent) instead of chasing the "right" iframe size.
+
+73. **Gate the footage, not just the artifacts around it.**
+   Timeline, container, and audio gates all passed while the recorded
+   pixels showed an empty log panel — the DOM held the rows, the paint
+   did not.
+   Earned: a per-take gate that extracts a frame and counts painted
+   log lines by color signature; CSS and DOM truth diverge exactly
+   where films are made.
+
 ## Adding a lesson to this file
 
 One lesson = one mechanism = one entry: rule (imperative), mechanism

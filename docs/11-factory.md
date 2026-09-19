@@ -140,6 +140,14 @@ happen; asserting on it turns every render into a test.
 - **Stamp merged logs in milliseconds.**
   Second-resolution stamps order events that a diagram must sequence;
   `T+ss.mmm` keeps the log and the arrows agreeing.
+- **Namespace data-driven class names.**
+  Lane or event identifiers become CSS classes in the composition page;
+  one collision with a layout rule silently repaints a whole panel.
+  Prefix generated classes (`l-guest`, `l-rail`) and gate on painted
+  pixels, not DOM presence.
+- **Dynamic viewport units misreport in cross-origin iframes.**
+  `100dvh` computes short in headless embedding; size the bezel to the
+  app's observed extent instead of trusting viewport units.
 - **Probe audio at cue starts.**
   Cue-end timestamps measure the gaps between lines; a gate reading
   silence there fails films that are fine.
