@@ -86,7 +86,7 @@ complete manuscript for a generic two-party protocol handshake.
 | `docs/11-factory.md` | Film matrices: scenario enumeration, composite recording, gate batteries |
 | `docs/lessons-learned.md` | The master list of earned lessons |
 | `templates/` | Manuscript, layered-summary, and Makefile skeletons |
-| `prompts/` | AI-agent prompt for producing a film from a test |
+| `prompts/` | AI-agent prompts: film from a test, filmed live demo |
 | `examples/` | Sanitized worked examples |
 
 ## The anonymity law
