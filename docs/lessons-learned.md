@@ -2,7 +2,7 @@
 
 Every entry: the rule, the mechanism, and the failure class that
 earned it.
-Sources are genericized per the anonymity law (AGENTS.md).
+Sources may be named (owner directive 2026-09-20); phrasing stays generic where it helps reuse.
 
 ## Manuscript and audiences
 

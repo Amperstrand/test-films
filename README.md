@@ -91,16 +91,6 @@ complete manuscript for a generic two-party protocol handshake.
 | `prompts/` | AI-agent prompts: film-from-test, film-script (owner-reviewed), narration-lines, frame-review, film-live-demo |
 | `examples/` | Sanitized worked examples |
 
-## The anonymity law
-
-This repository never names the projects the lessons were lifted from.
-Every pattern is stated generically ("a router test rig", "a two-party
-protocol", "a GPU transcription worker").
-If you vendor a tool or lift a module into this repo, strip its origin
-identity first — project names, org names, hostnames, domains, and
-repository URLs.
-See [AGENTS.md](AGENTS.md) for the enforcement rules.
-
 ## Conventions
 
 - One sentence per line in Markdown source (semantic line breaks).

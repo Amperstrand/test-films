@@ -99,8 +99,8 @@ project, the copy can drift from the source.
   fails on divergence.
 - On failure a human decides: update the copy to match, or bump the
   pin because the change is accounted for.
-  (In THIS repo the origin identity is stripped per the anonymity
-  law; the pin lives in the vendoring project, not here.)
+  (Vendored tools may keep their origin identity; the pin lives in
+  the vendoring project, not here.)
 
 ## The GATE-READY card (before any expensive film run)
 
