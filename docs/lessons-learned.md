@@ -278,6 +278,88 @@ ffmpeg post pass.
     runner-emitted timeline is what lets the two halves meet later
     without either machine knowing about the other.
 
+67. **Bind the filmed service to the recorder's lifecycle.**
+    Spawn the service under test as a child of the recording script
+    and terminate it in a final block whatever the outcome.
+    A take then ends with subject and recording gone together, so no
+    stale instance survives into the next take.
+    Earned: a wizard demo whose earlier server instance outlived its
+    take and kept serving the port the next take's browser filmed.
+
+68. **Probe the port before the take; the default may be occupied.**
+    A recorder that launches a service on a fixed port films whatever
+    answers there, including a stale instance from an earlier take.
+    Probe upward from the default until nothing answers and point the
+    browser at the port actually granted.
+    Earned: a fresh spawn exited on a bind error while the browser,
+    pointed at the default port, filmed the old server without
+    complaint.
+
+69. **Orphan long-lived lab machines from the step that starts them.**
+    Orchestration hosts that clean up each step's process tree kill
+    backgrounded servers and freshly created session managers with
+    the step.
+    Start durable machines with a short-lived driver that exits, so
+    the machine is reparented and survives; keep per-take services as
+    children of the take instead.
+    Earned: a lab where a backgrounded daemon and a new terminal
+    session manager died at each step boundary while a machine booted
+    by an exiting driver persisted across the whole session.
+
+70. **Boot a fresh environment for every take.**
+    A take filmed against leftover state narrates a different story
+    than the one scripted: half-applied configurations, locked-out
+    auth, renamed hosts.
+    Rebuild the golden image overlay per take and tear it down after;
+    the film starts where the script starts.
+    Earned: a demo run against a router an earlier take had hardened —
+    the fresh-setup story filmed as a locked box.
+
+71. **Pre-provision access before filming flows that lock it down.**
+    Hardening steps inside the filmed flow can disable the access the
+    harness itself uses, mid-take.
+    Inject a key while access is still open, then film the lockout;
+    the recording keeps control of a machine the script has sealed.
+    Earned: a use-case suite whose hardening step disabled password
+    logins, after which every later step filmed an empty response
+    until a key was authorized beforehand.
+
+72. **Race the terminal selectors with real-target time budgets.**
+    Deterministic sleeps break against live systems: a network sweep
+    runs close to a minute, a scripted install minutes.
+    Wait on the success and the failure view concurrently, with
+    budgets measured on the real target, and report which one won.
+    Earned: a wizard demo where fixed waits cut the network sweep
+    short; racing the outcome views filmed sweep and deploy in one
+    take.
+
+73. **Screenshot each act; the stills are the storyboard.**
+    A numbered still per act — discovery, input, progress, outcome —
+    gives reviewers the film without a player and editors the cut
+    points.
+    Earned: demo reviews that ran on four stills while the video
+    existed for the audience.
+
+74. **Filmed secrets stay masked by input type, never by editing.**
+    A secret typed into a password input never renders; the same
+    secret in a text field does, and cropping it out of the master is
+    not a workflow.
+    Prefer masked inputs in the filmed flow over post-production
+    redaction.
+    Earned: a wizard demo where the router credential appeared only as
+    dots because the form used a password input — nothing to scrub
+    before sharing.
+
+75. **Keep command stderr in orchestrated flows.**
+    A step that discards stderr converts its own failure into an
+    empty string downstream, and the diagnosis moves from the log to
+    the imagination.
+    Capture both streams and check exit status where the interface
+    allows; empty output is a symptom, not a verdict.
+    Earned: a config suite where package installs failed behind a
+    discarded stderr and surfaced two steps later as empty
+    verification output.
+
 ## Adding a lesson to this file
 
 One lesson = one mechanism = one entry: rule (imperative), mechanism

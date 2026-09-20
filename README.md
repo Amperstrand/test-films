@@ -88,7 +88,7 @@ complete manuscript for a generic two-party protocol handshake.
 | `tools/narrate-film.sh` | Synthesize, rate-fit, align, and mix a voice-over onto a recorded film from its timeline |
 | `tools/record-film.sh` | Run a recording lane on a beefier remote box; pull video, stills, and timeline back |
 | `tools/frames.sh` | Extract stills at timestamps for frame-by-frame review |
-| `prompts/` | AI-agent prompts: film-from-test, film-script (owner-reviewed), narration-lines, frame-review |
+| `prompts/` | AI-agent prompts: film-from-test, film-script (owner-reviewed), narration-lines, frame-review, film-live-demo |
 | `examples/` | Sanitized worked examples |
 
 ## The anonymity law
