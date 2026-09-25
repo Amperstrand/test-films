@@ -360,6 +360,21 @@ ffmpeg post pass.
     discarded stderr and surfaced two steps later as empty
     verification output.
 
+76. **Prove the binary under test is the binary you built.**
+    A harness that reads a binary-path override but never hands it to the
+    thing it launches tests the wrong build and reports it as evidence.
+    Wire the override end to end and print a provenance line (path, hash,
+    or version string) with every result.
+    Earned: a PR-test cycle where two "results" were actually the base
+    branch, betrayed only by a test-cache hit on unchanged code.
+
+77. **Rig conveniences mask product bugs; test the stock shape too.**
+    Every fixture that sets a value the field leaves unset moves your rig
+    away from the machine the product ships to.
+    Earned: a lab whose serial re-IP always set a LAN gateway, hiding an
+    upstream command chain that aborted on gateway-less stock routers —
+    caught not by the rig but by an execution-verified external review.
+
 ## Adding a lesson to this file
 
 One lesson = one mechanism = one entry: rule (imperative), mechanism
