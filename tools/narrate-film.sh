@@ -3,51 +3,97 @@
 #
 # Takes a silent video and a narration timeline (JSON: entries with
 # start/end milliseconds and a "say" line each — emitted by the film
-# runner's chrome, see templates/film-chrome.ts), synthesizes each
-# line with the local OS voice, rate-fits it into its window, and
-# mixes everything over a silent bed.
+# runner's chrome, see templates/film-chrome.ts), synthesizes each line
+# with a local voice, rate-fits it into its window, and mixes everything
+# over a silent bed.
+#
+# The voice backend is a choice, not a platform lock: the macOS `say`
+# facility is the historical default, and Kokoro-82M (offline, CPU,
+# Apache-2.0 — tools/kokoro-tts.py) is the portable Linux backend. The
+# provisioning role for that backend lives in ansible/.
 #
 # Usage:
 #   narrate-film.sh <video-in> <timeline.json> <mp4-out> [voice]
 # Environment:
+#   TTS_ENGINE    say | kokoro | espeak (default: say on macOS, kokoro elsewhere)
 #   T0_OFFSET_MS  recording-start anchor correction (default 1500)
 #   RATE_CLAMP    max time-stretch factor (default 1.45)
+#   NARRATION_GAP silence kept between two spoken lines, seconds (default 0.25)
+#   KOKORO_BIN    kokoro command (default: kokoro-tts on PATH; bare checkouts
+#                 set it to tools/kokoro-tts.py with kokoro-onnx on PATH)
+#   KOKORO_MODEL  model path, passed through to kokoro-tts.py
+#   KOKORO_VOICES voice pack path, passed through to kokoro-tts.py
 set -eu
 VID=${1:?video-in required}
 TL=${2:?timeline.json required}
 OUT=${3:?mp4-out required}
-VOICE=${4:-Samantha}
+VOICE=${4:-}
 T0_OFFSET_MS=${T0_OFFSET_MS:-1500}
 RATE_CLAMP=${RATE_CLAMP:-1.45}
+NARRATION_GAP=${NARRATION_GAP:-0.25}
+TTS_ENGINE=${TTS_ENGINE:-$( [ "$(uname -s)" = Darwin ] && echo say || echo kokoro )}
+KOKORO_BIN=${KOKORO_BIN:-kokoro-tts}
 WORK=$(mktemp -d /tmp/narrate-film.XXXXXX)
 trap 'rm -rf "$WORK"' EXIT
 
 [ -f "$VID" ] || { echo "no video at $VID" >&2; exit 1; }
 [ -f "$TL" ] || { echo "no timeline at $TL" >&2; exit 1; }
 DUR=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$VID")
-echo "==> film: ${DUR}s · voice: $VOICE"
 
-python3 - "$TL" "$T0_OFFSET_MS" > "$WORK/plan.txt" <<'PY'
+# synth <text> <out>: write one spoken line to <out> in a format ffmpeg
+# reads. The ONE place that knows which local voice backend is in play.
+synth() {
+  text=$1; out=$2
+  case "$TTS_ENGINE" in
+    say)
+      say -o "$out" -v "${VOICE:-Samantha}" "$text" 2>/dev/null \
+        || { echo "TTS_ENGINE=say: macOS 'say' unavailable" >&2; exit 1; } ;;
+    kokoro)
+      command -v "$KOKORO_BIN" >/dev/null 2>&1 || [ -x "$KOKORO_BIN" ] \
+        || { echo "TTS_ENGINE=kokoro: $KOKORO_BIN not found (see tools/kokoro-tts.py)" >&2; exit 1; }
+      if [ -n "$VOICE" ]; then
+        "$KOKORO_BIN" --out "$out" --voice "$VOICE" --text "$text"
+      else
+        "$KOKORO_BIN" --out "$out" --text "$text"
+      fi ;;
+    espeak)
+      espeak-ng -w "$out" "$text" 2>/dev/null \
+        || { echo "TTS_ENGINE=espeak: espeak-ng unavailable" >&2; exit 1; } ;;
+    *)
+      echo "unknown TTS_ENGINE: $TTS_ENGINE (want say|kokoro|espeak)" >&2; exit 1 ;;
+  esac
+}
+
+case "$TTS_ENGINE" in say) RAWEXT=aiff ;; *) RAWEXT=wav ;; esac
+echo "==> film: ${DUR}s · engine: $TTS_ENGINE · voice: ${VOICE:-default}"
+
+python3 - "$TL" "$T0_OFFSET_MS" "$NARRATION_GAP" > "$WORK/plan.txt" <<'PY'
 import json, sys
 tl = json.load(open(sys.argv[1]))
 t0 = float(sys.argv[2])
-for e in tl["entries"]:
-    if not e.get("say"):
-        continue
-    start = max(0, e["start"] - t0) / 1000.0
-    end = min(e.get("end", e["start"] + 4000), 10**9) / 1000.0
-    window = max(1.0, end - start - 0.3)
+gap = float(sys.argv[3])
+spoken = [e for e in tl["entries"] if e.get("say")]
+for i, e in enumerate(spoken):
+    start = max(0.0, e["start"] - t0) / 1000.0
+    card_end = min(e.get("end", e["start"] + 4000), 10**9)
+    # Never let a line run into the next line: two voices overlapping is the
+    # failure this clamps away, whatever the timeline says. The window is the
+    # smaller of the card's spoken span and the gap to the next line's start.
+    window = max(0.0, (card_end - t0) / 1000.0 - start)
+    if i + 1 < len(spoken):
+        next_start = max(0.0, spoken[i + 1]["start"] - t0) / 1000.0
+        window = min(window, next_start - start - gap)
+    window = max(0.3, window)
     print(f"{start:.3f}\t{window:.3f}\t{e['say']}")
 PY
 
 n=0
 while IFS=$'\t' read -r start window text; do
   n=$((n+1))
-  say -o "$WORK/line$n.aiff" -v "$VOICE" "$text" 2>/dev/null \
-    || { echo "OS speech synth unavailable (macOS say?)" >&2; exit 1; }
-  rawdur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$WORK/line$n.aiff")
+  synth "$text" "$WORK/line$n.src.$RAWEXT"
+  rawdur=$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$WORK/line$n.src.$RAWEXT")
   tempo=$(python3 -c "print(1.0 if $rawdur <= $window else round(min($RATE_CLAMP, $rawdur / $window), 3))")
-  ffmpeg -y -v error -i "$WORK/line$n.aiff" \
+  ffmpeg -y -v error -i "$WORK/line$n.src.$RAWEXT" \
     -filter:a "atempo=$tempo,apad" -t "$window" -ar 44100 -ac 2 "$WORK/line$n.wav"
   echo "$start" >> "$WORK/delays.txt"
 done < "$WORK/plan.txt"

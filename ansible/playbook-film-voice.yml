@@ -1,0 +1,12 @@
+---
+# Provision the offline Kokoro-82M narration backend on one or more Linux
+# film hosts.
+#
+#   ansible-playbook -i ansible/inventory.ini ansible/playbook-film-voice.yml
+#
+# Run from the repository root: the role installs the tools from ./tools.
+- name: Provision the film voice backend
+  hosts: film_hosts
+  gather_facts: true
+  roles:
+    - film_voice_linux

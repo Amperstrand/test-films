@@ -375,6 +375,18 @@ ffmpeg post pass.
     upstream command chain that aborted on gateway-less stock routers —
     caught not by the rig but by an execution-verified external review.
 
+78. **Do not bind a film series to one OS voice.**
+    A voice pipeline that shells out to the platform speech facility
+    dies on every host that lacks it, so a series recorded on another
+    OS cannot be regenerated.
+    Ship a backend-agnostic narrator (pick the engine by an
+    environment variable) and provision the portable backend — an
+    offline, CPU model — with a checksum-pinned workflow, so every
+    host of the class reproduces the series voice.
+    Earned: a browser-recorded series whose narration called the
+    macOS `say` binary could not run on the Linux recording host
+    until an offline model and a provisioning role were added.
+
 ## Adding a lesson to this file
 
 One lesson = one mechanism = one entry: rule (imperative), mechanism

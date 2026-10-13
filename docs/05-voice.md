@@ -92,6 +92,13 @@ When the film needs a voice that was never spoken:
    Decide per series, declare in the manifest, never mix voices
    within one film.
 
+### A portable backend on Linux (Kokoro)
+
+The OS voice is not portable: the macOS `say` facility does not exist on Linux.
+For Linux film hosts, narrate with Kokoro-82M, an offline, CPU-capable, Apache-2.0 model (`tools/kokoro-tts.py`), and select it from the post pass with `TTS_ENGINE=kokoro`.
+Provision the backend with the Ansible workflow in [ansible/README.md](../ansible/README.md): it installs the toolchain and fetches the model and voice pack by pinned sha256, so a fresh host reproduces the series voice byte-for-byte.
+Declare the voice id and the model revision in the manifest, and treat a model bump as a deliberate re-render of the whole series.
+
 ## The post pass (browser-recorded films, proven mechanics)
 
 When the footage is a browser test recording and the timeline comes
