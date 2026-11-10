@@ -56,8 +56,13 @@ happen; asserting on it turns every render into a test.
    One page: the client under test in an iframe, one terminal pane per
    backend lane, a scene bar.
    A small server spawns the system, parses narration events, feeds the
-   panes over a websocket, and appends every line to the merged timeline
-   with arrival timestamps.
+   panes over a websocket, and appends every line to the merged timeline.
+   Every event carries a producer timestamp stamped where it originates,
+   plus the producer's clock anchor; arrival timestamps are transport
+   diagnostics, never ordering evidence — websocket buffering can deliver
+   lines from separate processes or hosts out of order, so sequence
+   gates assert on producer stamps only (cross-host sub-second ordering
+   is advisory, per [04-sync.md](04-sync.md)).
    One viewport recording yields footage that is synchronized by
    construction.
 4. **Anchor narration to the recording, not the plan.**
@@ -90,8 +95,14 @@ happen; asserting on it turns every render into a test.
    and a cross-system check (the durable registry state the footage
    claims to produce).
 8. **Make the pipeline resumable.**
-   A take that exists is skipped; a film that exists is re-gated, not
-   re-rendered.
+   An artifact is reusable only once complete: renders write to a
+   temporary name and atomically rename on completion; a take is
+   skippable only when its completion marker (or validated checksum)
+   is present.
+   A path that exists without its marker is debris from an interrupted
+   run — delete it and rebuild; existence alone would bake a
+   half-written take into the film.
+   A completed film is re-gated, not re-rendered.
    A multi-hour matrix survives interruption and gate fixes without
    re-recording.
 9. **Generate the reel from the table.**
@@ -107,6 +118,12 @@ happen; asserting on it turns every render into a test.
   group.
   Pause per group, restore after, and verify restoration — the helper
   exists for a reason.
+  Persist the helper's original state (enabled flag, timer schedule)
+  before pausing, and register the restore in an `EXIT` trap or
+  `finally` handler that runs on interruption: a run aborted between
+  pause and restore must still leave the environment unmutated, or
+  later groups and ordinary demos film against leftover changes they
+  never made.
 - **Kill the supervisor tree between groups.**
   Restarting only the listener leaves the supervisor alive, and the
   supervisor respawns the listener with the previous group's config.
@@ -116,7 +133,11 @@ happen; asserting on it turns every render into a test.
   Separate ports do not mean separate systems when both point at the
   same state directory; alarms and background turns execute against
   shared data.
-  Inventory the state directory before blaming an external actor.
+  Isolate before recording: give each instance its own state directory
+  (per-run path or container), or stop and serialize every process
+  that touches the shared directory for the duration of the take —
+  identifying the collision afterwards only explains the corrupted
+  take.
 - **When the log omits the event, diff the state.**
   A node whose log never mentions settlement still exposes settlement in
   list calls; a one-second poll-diff reconstructs the missing lane from
