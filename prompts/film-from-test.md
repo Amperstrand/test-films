@@ -32,6 +32,8 @@ the contracts in this repository's docs.
 6. Cut the film: scene list generated from narration events and
    divergence boundaries; static spans compressed and labeled; every
    scene cites its timeline span.
+   Renders carry narration audio only — captions and titles live in
+   `overlays/` and the reel, never burned into footage.
 7. Attach evidence: cell/source/lineage entries with concrete
    results; transcript ranges with timestamps; no bare paths.
 8. Run the checker (`film-check`) and fix every finding it reports.

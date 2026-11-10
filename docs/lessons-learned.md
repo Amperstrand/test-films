@@ -375,6 +375,142 @@ ffmpeg post pass.
     upstream command chain that aborted on gateway-less stock routers —
     caught not by the rig but by an execution-verified external review.
 
+
+## Film factory
+
+78. **Record the lanes in one viewport; sync by construction.**
+   Aligning independently recorded lanes relies on clock trust across
+   machines; composition removes the degree of freedom entirely.
+   Earned: a four-lane order film (client, order backend, payment rail,
+   Lightning node) shot as one composite take; per-lane re-shoots
+   attempted later could not have supported ordering asserts on the
+   merged timeline.
+
+79. **Audience layers multiply at render time, not at footage time.**
+   Re-recording a scenario per audience multiplies cost and lets
+   "identical" takes drift; one footage truth per scenario with N
+   narration renders keeps films comparable.
+   Earned: a fifteen-cell scenario matrix rendered to forty-five films
+   (three audiences) with gates asserting identical event sequences
+   across the audience variants of each cell.
+
+80. **Failure-path filming disarms success helpers.**
+   A standing auto-settler (installed so demos finish hands-free) paid
+   obligations inside shortened failure windows, so expiry cells failed
+   as "settled anyway".
+   Earned: the failure group only recorded correctly with the settler's
+   systemd timer paused for that group, then restored and verified.
+
+81. **Kill the supervisor tree between environment groups.**
+   An orchestrator that stops only the listener leaves the supervisor
+   alive; it respawns the listener with the previous group's config, and
+   the next take silently runs the wrong environment.
+   Earned: a "settlement disabled" group whose invoices kept settling;
+   the take had run against a respawned stale-config server.
+
+82. **Inventory shared state directories before blaming external actors.**
+   Two dev servers on one checkout with separate ports shared one state
+   directory; alarms and background turns of one executed against the
+   other's data.
+   Earned: hours spent blaming external actors for mutations that the
+   shared-state inventory traced to the co-located server; listing the
+   state directory was the first thing that separated the suspects.
+
+83. **When the log omits the event, diff the state.**
+   A Lightning node at info level logs nothing for invoice settlement,
+   yet settlement is visible in list calls.
+   Earned: a payment lane that stayed empty while payments settled;
+   a one-second poll-diff over `listinvoices` reconstructed the lane
+   from real state.
+
+84. **Slide the window; never parse a failed fetch as empty.**
+   Windowed polling of a growing list must re-anchor the window each
+   poll; a failed initial fetch parsed as an empty list pins the window
+   to the oldest items and the watcher dies silently.
+   Earned: a telemetry poller that emitted nothing for whole takes
+   because its one slow boot fetch fell back to "zero items".
+
+85. **Local settlement leaves no outbound record.**
+   A node that settles its own obligation marks it settled without any
+   outbound payment entry.
+   Earned: "no outbound payment" was read as "nobody paid" while the
+   invoice was settled locally by the node itself.
+
+86. **Render derived units beside raw units.**
+   A system reporting millisatoshi is read as satoshi by humans; the
+   1000x phantom propagates into incident reports and screenshots.
+   Earned: a "wrong by 1000x" invoice complaint that was a display-unit
+   misread; every human surface now carries the raw millisatoshi value
+   beside its derived satoshi and BTC, so a faulty conversion is
+   visible at a glance instead of trusted.
+
+87. **Budget the viewport before the first take.**
+   Chrome added after layout steals pixels from the protagonist.
+   Earned: a status bar under a full-height phone cropped the
+   composer out of every frame of a recorded matrix; the fix was
+   layout arithmetic plus one frame inspection, not re-recording
+   discipline.
+
+88. **The protocol view is the timeline drawn, not authored.**
+   Mapping narration events onto live sequence arrows (one lifeline
+   per participant) shows causality at speaking speed.
+   Earned: a four-participant payment story followed on screen where
+   the printed timeline needed study; the arrow mapping was a table
+   over the same events, no new instrumentation.
+
+89. **Voice over clean footage; captions live beside the film.**
+   Burned-in text duplicates the narration, dates the footage, and
+   fights the composition for attention.
+   Earned: a narrated matrix re-rendered without subtitles or scene
+   titles read better and aged better; subtitle files kept serving
+   players that want them.
+
+90. **Natural narration is a local model away.**
+   An 82M-parameter public model synthesizes faster than real time on
+   CPU; the robotic voice was a habit, not a constraint.
+   Earned: switching the synthesizer changed nothing in the pipeline
+   except one command and two declared settings (voice, speed).
+   The GPU execution provider needs matching system CUDA libraries —
+   without them it falls back to CPU silently, and CPU is enough.
+
+91. **One visible actor per causal arrow.**
+   A standing auto-settler on a wall clock makes payments appear
+   causeless in the diagram — effects without senders.
+   Earned: recordings where the invoice settled with no self-pay
+   arrow; pausing the external settler during recording put the
+   visible participant back in the causal chain.
+
+92. **Stamp merged logs in milliseconds.**
+   A diagram that sequences events a log cannot order at second
+   resolution will contradict itself on camera.
+   Earned: `T+ss.mmm` stamps on every merged line kept the log lane
+   and the live arrows agreeing during fast settlement sequences.
+
+93. **Namespace injected class names; never let data meet layout CSS.**
+   Rendering log lines tagged by participant, a lane named "phone"
+   collided with the page's `.phone` shell rule (a fixed-height bezel):
+   the first row became 876 pixels tall and every later row painted
+   below the clip — a full log panel that rendered as one line.
+   Earned: a film matrix where every gate passed except pixel reality;
+   the fix was namespacing lane classes (`l-phone`) and renaming the
+   layout class, plus a footage gate that counts painted lines.
+
+94. **Dynamic viewport units misreport inside cross-origin iframes.**
+   `100dvh` in an app embedded by a composition page computed ~46 pixels
+   short in headless Chromium, so the app's composer never reached the
+   frame bottom and a dead band read as a cropped phone at any iframe
+   height.
+   Earned: layout arithmetic (sum the chrome, clip the bezel to the
+   app's real extent) instead of chasing the "right" iframe size.
+
+95. **Gate the footage, not just the artifacts around it.**
+   Timeline, container, and audio gates all passed while the recorded
+   pixels showed an empty log panel — the DOM held the rows, the paint
+   did not.
+    Earned: a per-take gate that extracts a frame and counts painted
+    log lines by color signature; CSS and DOM truth diverge exactly
+    where films are made.
+
 ## Adding a lesson to this file
 
 One lesson = one mechanism = one entry: rule (imperative), mechanism
