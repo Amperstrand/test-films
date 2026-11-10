@@ -21,23 +21,37 @@ capture contracts in this repository's docs.
 2. Pre-provision access: inject `<ACCESS KEY>` while the environment
    still allows it, then let the filmed flow change access exactly as
    it does in production.
-3. Spawn the service under test as a child of the recording script;
-   terminate it in a final block whatever the outcome.
-4. Probe for a free port from `<DEFAULT PORT>` upward; drive the
-   browser against the port actually granted.
-5. Open the recorder with a fixed viewport and video capture; the
+3. Arm an unconditional finalizer before creating anything else — an
+   outer `finally` block or `EXIT` trap that runs on every exit path:
+   tear down the environment and its network scaffolding and return
+   the host to its pre-take state, whatever the outcome.
+   The take below may fail at any step; the finalizer, not a
+   sequential last step, owns teardown.
+4. Spawn the service under test as a child of the recording script;
+   the finalizer terminates it whatever the outcome.
+5. Bind the service to an OS-assigned port (port 0), or reserve the
+   chosen port atomically — bind it and hold the reservation until
+   the child inherits it.
+   Never probe-then-start: on a shared host another process can claim
+   the port between the two, and the browser would film the wrong
+   service.
+   Drive the browser against the port actually granted.
+6. Open the recorder with a fixed viewport and video capture; the
    recording context flushes the film only on close.
-6. Perform the acts in order — `<ACT LIST>` — driving the real
-   interface by selector, typing real values, and favoring password
-   inputs for secrets.
-7. Wait by racing the success and failure views
+7. Perform the acts in order — `<ACT LIST>` — driving the real
+   interface by selector and typing real values.
+   Secrets go only into masked (password-type) inputs, and only as
+   sanitized throwaway credentials minted for this take; if the
+   target exposes a credential through an unmasked text input, abort
+   the take — the film and the stills capture whatever is typed.
+   Immediately after each act completes, capture its numbered still
+   while that act's view is still on screen; a still taken after the
+   whole act list can only show the final view.
+8. Wait by racing the success and failure views
    (`<SUCCESS SELECTOR>`, `<FAILURE SELECTOR>`) with budgets measured
    on the real target (`<TIME BUDGETS>`); report which one won.
-8. Screenshot each act as a numbered still.
 9. Close the recording context to flush the video, then rename it to
    the run identity.
-10. Tear down the environment and its network scaffolding; the host
-    returns to its pre-take state.
 
 ## OUTPUT FORMAT
 
