@@ -2,7 +2,7 @@
 
 Every entry: the rule, the mechanism, and the failure class that
 earned it.
-Sources are genericized per the anonymity law (AGENTS.md).
+Sources may be named (owner directive 2026-09-20); phrasing stays generic where it helps reuse.
 
 ## Manuscript and audiences
 
@@ -209,140 +209,76 @@ Sources are genericized per the anonymity law (AGENTS.md).
     Rebuild the quote pack from pins and compare; an in-place-edited
     corpus must fail instead of re-authorizing drifted quotes.
 
-56. **Record the lanes in one viewport; sync by construction.**
-   Aligning independently recorded lanes relies on clock trust across
-   machines; composition removes the degree of freedom entirely.
-   Earned: a four-lane order film (client, order backend, payment rail,
-   Lightning node) shot as one composite take; per-lane re-shoots
-   attempted later could not have supported ordering asserts on the
-   merged timeline.
+## Browser-recorded product films (overlay, pacing, narration post pass)
 
-## Film factory
+Lessons 56–64 come from a round of phone-viewport product films
+recorded straight out of a browser test runner: on-screen card
+chrome, a live companion device view, synthesized voice-over, and an
+ffmpeg post pass.
 
-57. **Audience layers multiply at render time, not at footage time.**
-   Re-recording a scenario per audience multiplies cost and lets
-   "identical" takes drift; one footage truth per scenario with N
-   narration renders keeps films comparable.
-   Earned: a fifteen-cell scenario matrix rendered to forty-five films
-   (three audiences) with gates asserting identical event sequences
-   across the audience variants of each cell.
+56. **Fixed overlays are click-through or they eat the driver.**
+    A fixed-position companion view with default pointer events sits
+    above the UI under test; the automation driver retries clicks
+    under it for the whole action budget (a visibly jittering
+    recording) and then fails on a control that is present.
+    `pointer-events: none` on every display-only overlay.
+57. **Companion overlays: at least a fifth of the frame width, placed
+    where the point of interest is not, arriving when the narration
+    starts.**
+    Below roughly 20 percent of frame width a companion readout stops
+    reading; the overlay lives in the calm region of the shot (study
+    a frame, find it); an element that exists from frame zero is
+    furniture, while one that boots at the narrated moment is a
+    character.
+58. **Transient character, persistent record.**
+    A second view that matters for one scene (a device's own display)
+    arrives at the event, runs while the scene lives, and fades; a
+    compact strip persists afterwards as the standing record.
+    One permanent overlay trying to be both occludes or decays.
+59. **Every surface of the same fact reads the same live source.**
+    A companion view derives its numbers from the same feed or DOM
+    the primary surface renders — never from a parallel simulation.
+    Two sources drift apart on camera, and drift on camera is a lie
+    with a graph on it.
+60. **Card pacing is computed from reading speed, not guessed.**
+    Words divided by a words-per-second rate plus entry slack, with a
+    floor of about three seconds; fixed guesses produced cards that
+    vanished before a human finished the first line.
+61. **The runner emits the narration timeline; the post pass consumes
+    it.**
+    Every on-screen card records its window and its spoken line at
+    runtime into a JSON timeline; narration sync becomes data
+    plumbing instead of manual measurement.
+    Hand-synced voice drifts a little per re-cut until it is wrong
+    everywhere.
+62. **Rate-fit each synthesized line to its window.**
+    Synthesize, measure the take, time-stretch it (clamped, about
+    1.45x at most) into the card's window, pad when short, and anchor
+    the timeline to the recording's start with a small offset — the
+    recording begins before the first page loads.
+63. **Mix delayed segments over a silent bed with
+    `duration=longest`; re-encode browser video into the delivery
+    container.**
+    An `amix` built with `duration=first` ends the whole track at the
+    first (short) segment — a film that goes silent after its opening
+    line; and browser-recorded VP8 cannot be stream-copied into MP4,
+    so the final render re-encodes video.
+64. **Read the verdict line, not the artifact line.**
+    Post-run artifact reports (a file path plus a duration) can
+    describe the previous take while the current run failed at load;
+    gate on the runner's own pass/fail line.
 
-58. **Failure-path filming disarms success helpers.**
-   A standing auto-settler (installed so demos finish hands-free) paid
-   obligations inside shortened failure windows, so expiry cells failed
-   as "settled anyway".
-   Earned: the failure group only recorded correctly with the settler's
-   systemd timer paused for that group, then restored and verified.
+65. **Bridge system waits with live cards, never dead air.**
+    A card that holds until its predicate passes (settlement confirmed,
+    sync observed) turns the film's slowest real seconds into narration
+    surface instead of a frozen frame the viewer scrub past.
+66. **Record where the CPU is; synthesize where the voice is.**
+    The capture wants the beefy quiet box; the OS speech synthesizer and
+    the post pass live on the presenter's workstation — the
+    runner-emitted timeline is what lets the two halves meet later
+    without either machine knowing about the other.
 
-59. **Kill the supervisor tree between environment groups.**
-   An orchestrator that stops only the listener leaves the supervisor
-   alive; it respawns the listener with the previous group's config, and
-   the next take silently runs the wrong environment.
-   Earned: a "settlement disabled" group whose invoices kept settling;
-   the take had run against a respawned stale-config server.
-
-60. **Inventory shared state directories before blaming external actors.**
-   Two dev servers on one checkout with separate ports shared one state
-   directory; alarms and background turns of one executed against the
-   other's data.
-   Earned: hours spent suspecting an innocent second instance while the
-   real actor was a timer on a remote host; the state directory was the
-   first thing that separated the suspects.
-
-61. **When the log omits the event, diff the state.**
-   A Lightning node at info level logs nothing for invoice settlement,
-   yet settlement is visible in list calls.
-   Earned: a payment lane that stayed empty while payments settled;
-   a one-second poll-diff over `listinvoices` reconstructed the lane
-   from real state.
-
-62. **Slide the window; never parse a failed fetch as empty.**
-   Windowed polling of a growing list must re-anchor the window each
-   poll; a failed initial fetch parsed as an empty list pins the window
-   to the oldest items and the watcher dies silently.
-   Earned: a telemetry poller that emitted nothing for whole takes
-   because its one slow boot fetch fell back to "zero items".
-
-63. **Local settlement leaves no outbound record.**
-   A node that settles its own obligation marks it settled without any
-   outbound payment entry.
-   Earned: "no outbound payment" was read as "nobody paid" while the
-   invoice was settled locally by the node itself.
-
-64. **Render derived units beside raw units.**
-   A system reporting millisatoshi is read as satoshi by humans; the
-   1000x phantom propagates into incident reports and screenshots.
-   Earned: a "wrong by 1000x" invoice complaint that was a display-unit
-   misread; every human surface now carries satoshi beside BTC.
-
-65. **Budget the viewport before the first take.**
-   Chrome added after layout steals pixels from the protagonist.
-   Earned: a status bar under a full-height phone cropped the
-   composer out of every frame of a recorded matrix; the fix was
-   layout arithmetic plus one frame inspection, not re-recording
-   discipline.
-
-66. **The protocol view is the timeline drawn, not authored.**
-   Mapping narration events onto live sequence arrows (one lifeline
-   per participant) shows causality at speaking speed.
-   Earned: a four-participant payment story followed on screen where
-   the printed timeline needed study; the arrow mapping was a table
-   over the same events, no new instrumentation.
-
-67. **Voice over clean footage; captions live beside the film.**
-   Burned-in text duplicates the narration, dates the footage, and
-   fights the composition for attention.
-   Earned: a narrated matrix re-rendered without subtitles or scene
-   titles read better and aged better; subtitle files kept serving
-   players that want them.
-
-68. **Natural narration is a local model away.**
-   An 82M-parameter public model synthesizes faster than real time on
-   CPU; the robotic voice was a habit, not a constraint.
-   Earned: switching the synthesizer changed nothing in the pipeline
-   except one command and two declared settings (voice, speed).
-   The GPU execution provider needs matching system CUDA libraries —
-   without them it falls back to CPU silently, and CPU is enough.
-
-69. **One visible actor per causal arrow.**
-   A standing auto-settler on a wall clock makes payments appear
-   causeless in the diagram — effects without senders.
-   Earned: recordings where the invoice settled with no self-pay
-   arrow; pausing the external settler during recording put the
-   visible participant back in the causal chain.
-
-70. **Stamp merged logs in milliseconds.**
-   A diagram that sequences events a log cannot order at second
-   resolution will contradict itself on camera.
-   Earned: `T+ss.mmm` stamps on every merged line kept the log lane
-   and the live arrows agreeing during fast settlement sequences.
-
-71. **Namespace injected class names; never let data meet layout CSS.**
-   Rendering log lines tagged by participant, a lane named "phone"
-   collided with the page's `.phone` shell rule (a fixed-height bezel):
-   the first row became 876 pixels tall and every later row painted
-   below the clip — a full log panel that rendered as one line.
-   Earned: a film matrix where every gate passed except pixel reality;
-   the fix was namespacing lane classes (`l-phone`) and renaming the
-   layout class, plus a footage gate that counts painted lines.
-
-72. **Dynamic viewport units misreport inside cross-origin iframes.**
-   `100dvh` in an app embedded by a composition page computed ~46 pixels
-   short in headless Chromium, so the app's composer never reached the
-   frame bottom and a dead band read as a cropped phone at any iframe
-   height.
-   Earned: layout arithmetic (sum the chrome, clip the bezel to the
-   app's real extent) instead of chasing the "right" iframe size.
-
-73. **Gate the footage, not just the artifacts around it.**
-   Timeline, container, and audio gates all passed while the recorded
-   pixels showed an empty log panel — the DOM held the rows, the paint
-   did not.
-    Earned: a per-take gate that extracts a frame and counts painted
-    log lines by color signature; CSS and DOM truth diverge exactly
-    where films are made.
-
-74. **Bind the filmed service to the recorder's lifecycle.**
+67. **Bind the filmed service to the recorder's lifecycle.**
     Spawn the service under test as a child of the recording script
     and terminate it in a final block whatever the outcome.
     A take then ends with subject and recording gone together, so no
@@ -350,7 +286,7 @@ Sources are genericized per the anonymity law (AGENTS.md).
     Earned: a wizard demo whose earlier server instance outlived its
     take and kept serving the port the next take's browser filmed.
 
-75. **Probe the port before the take; the default may be occupied.**
+68. **Probe the port before the take; the default may be occupied.**
     A recorder that launches a service on a fixed port films whatever
     answers there, including a stale instance from an earlier take.
     Probe upward from the default until nothing answers and point the
@@ -359,7 +295,7 @@ Sources are genericized per the anonymity law (AGENTS.md).
     pointed at the default port, filmed the old server without
     complaint.
 
-76. **Orphan long-lived lab machines from the step that starts them.**
+69. **Orphan long-lived lab machines from the step that starts them.**
     Orchestration hosts that clean up each step's process tree kill
     backgrounded servers and freshly created session managers with
     the step.
@@ -370,7 +306,7 @@ Sources are genericized per the anonymity law (AGENTS.md).
     session manager died at each step boundary while a machine booted
     by an exiting driver persisted across the whole session.
 
-77. **Boot a fresh environment for every take.**
+70. **Boot a fresh environment for every take.**
     A take filmed against leftover state narrates a different story
     than the one scripted: half-applied configurations, locked-out
     auth, renamed hosts.
@@ -379,7 +315,7 @@ Sources are genericized per the anonymity law (AGENTS.md).
     Earned: a demo run against a router an earlier take had hardened —
     the fresh-setup story filmed as a locked box.
 
-78. **Pre-provision access before filming flows that lock it down.**
+71. **Pre-provision access before filming flows that lock it down.**
     Hardening steps inside the filmed flow can disable the access the
     harness itself uses, mid-take.
     Inject a key while access is still open, then film the lockout;
@@ -388,7 +324,7 @@ Sources are genericized per the anonymity law (AGENTS.md).
     logins, after which every later step filmed an empty response
     until a key was authorized beforehand.
 
-79. **Race the terminal selectors with real-target time budgets.**
+72. **Race the terminal selectors with real-target time budgets.**
     Deterministic sleeps break against live systems: a network sweep
     runs close to a minute, a scripted install minutes.
     Wait on the success and the failure view concurrently, with
@@ -397,14 +333,14 @@ Sources are genericized per the anonymity law (AGENTS.md).
     short; racing the outcome views filmed sweep and deploy in one
     take.
 
-80. **Screenshot each act; the stills are the storyboard.**
+73. **Screenshot each act; the stills are the storyboard.**
     A numbered still per act — discovery, input, progress, outcome —
     gives reviewers the film without a player and editors the cut
     points.
     Earned: demo reviews that ran on four stills while the video
     existed for the audience.
 
-81. **Filmed secrets stay masked by input type, never by editing.**
+74. **Filmed secrets stay masked by input type, never by editing.**
     A secret typed into a password input never renders; the same
     secret in a text field does, and cropping it out of the master is
     not a workflow.
@@ -414,7 +350,7 @@ Sources are genericized per the anonymity law (AGENTS.md).
     dots because the form used a password input — nothing to scrub
     before sharing.
 
-82. **Keep command stderr in orchestrated flows.**
+75. **Keep command stderr in orchestrated flows.**
     A step that discards stderr converts its own failure into an
     empty string downstream, and the diagnosis moves from the log to
     the imagination.
@@ -423,6 +359,155 @@ Sources are genericized per the anonymity law (AGENTS.md).
     Earned: a config suite where package installs failed behind a
     discarded stderr and surfaced two steps later as empty
     verification output.
+
+76. **Prove the binary under test is the binary you built.**
+    A harness that reads a binary-path override but never hands it to the
+    thing it launches tests the wrong build and reports it as evidence.
+    Wire the override end to end and print a provenance line (path, hash,
+    or version string) with every result.
+    Earned: a PR-test cycle where two "results" were actually the base
+    branch, betrayed only by a test-cache hit on unchanged code.
+
+77. **Rig conveniences mask product bugs; test the stock shape too.**
+    Every fixture that sets a value the field leaves unset moves your rig
+    away from the machine the product ships to.
+    Earned: a lab whose serial re-IP always set a LAN gateway, hiding an
+    upstream command chain that aborted on gateway-less stock routers —
+    caught not by the rig but by an execution-verified external review.
+
+
+## Film factory
+
+78. **Record the lanes in one viewport; sync by construction.**
+   Aligning independently recorded lanes relies on clock trust across
+   machines; composition removes the degree of freedom entirely.
+   Earned: a four-lane order film (client, order backend, payment rail,
+   Lightning node) shot as one composite take; per-lane re-shoots
+   attempted later could not have supported ordering asserts on the
+   merged timeline.
+
+79. **Audience layers multiply at render time, not at footage time.**
+   Re-recording a scenario per audience multiplies cost and lets
+   "identical" takes drift; one footage truth per scenario with N
+   narration renders keeps films comparable.
+   Earned: a fifteen-cell scenario matrix rendered to forty-five films
+   (three audiences) with gates asserting identical event sequences
+   across the audience variants of each cell.
+
+80. **Failure-path filming disarms success helpers.**
+   A standing auto-settler (installed so demos finish hands-free) paid
+   obligations inside shortened failure windows, so expiry cells failed
+   as "settled anyway".
+   Earned: the failure group only recorded correctly with the settler's
+   systemd timer paused for that group, then restored and verified.
+
+81. **Kill the supervisor tree between environment groups.**
+   An orchestrator that stops only the listener leaves the supervisor
+   alive; it respawns the listener with the previous group's config, and
+   the next take silently runs the wrong environment.
+   Earned: a "settlement disabled" group whose invoices kept settling;
+   the take had run against a respawned stale-config server.
+
+82. **Inventory shared state directories before blaming external actors.**
+   Two dev servers on one checkout with separate ports shared one state
+   directory; alarms and background turns of one executed against the
+   other's data.
+   Earned: hours spent suspecting an innocent second instance while the
+   real actor was a timer on a remote host; the state directory was the
+   first thing that separated the suspects.
+
+83. **When the log omits the event, diff the state.**
+   A Lightning node at info level logs nothing for invoice settlement,
+   yet settlement is visible in list calls.
+   Earned: a payment lane that stayed empty while payments settled;
+   a one-second poll-diff over `listinvoices` reconstructed the lane
+   from real state.
+
+84. **Slide the window; never parse a failed fetch as empty.**
+   Windowed polling of a growing list must re-anchor the window each
+   poll; a failed initial fetch parsed as an empty list pins the window
+   to the oldest items and the watcher dies silently.
+   Earned: a telemetry poller that emitted nothing for whole takes
+   because its one slow boot fetch fell back to "zero items".
+
+85. **Local settlement leaves no outbound record.**
+   A node that settles its own obligation marks it settled without any
+   outbound payment entry.
+   Earned: "no outbound payment" was read as "nobody paid" while the
+   invoice was settled locally by the node itself.
+
+86. **Render derived units beside raw units.**
+   A system reporting millisatoshi is read as satoshi by humans; the
+   1000x phantom propagates into incident reports and screenshots.
+   Earned: a "wrong by 1000x" invoice complaint that was a display-unit
+   misread; every human surface now carries satoshi beside BTC.
+
+87. **Budget the viewport before the first take.**
+   Chrome added after layout steals pixels from the protagonist.
+   Earned: a status bar under a full-height phone cropped the
+   composer out of every frame of a recorded matrix; the fix was
+   layout arithmetic plus one frame inspection, not re-recording
+   discipline.
+
+88. **The protocol view is the timeline drawn, not authored.**
+   Mapping narration events onto live sequence arrows (one lifeline
+   per participant) shows causality at speaking speed.
+   Earned: a four-participant payment story followed on screen where
+   the printed timeline needed study; the arrow mapping was a table
+   over the same events, no new instrumentation.
+
+89. **Voice over clean footage; captions live beside the film.**
+   Burned-in text duplicates the narration, dates the footage, and
+   fights the composition for attention.
+   Earned: a narrated matrix re-rendered without subtitles or scene
+   titles read better and aged better; subtitle files kept serving
+   players that want them.
+
+90. **Natural narration is a local model away.**
+   An 82M-parameter public model synthesizes faster than real time on
+   CPU; the robotic voice was a habit, not a constraint.
+   Earned: switching the synthesizer changed nothing in the pipeline
+   except one command and two declared settings (voice, speed).
+   The GPU execution provider needs matching system CUDA libraries —
+   without them it falls back to CPU silently, and CPU is enough.
+
+91. **One visible actor per causal arrow.**
+   A standing auto-settler on a wall clock makes payments appear
+   causeless in the diagram — effects without senders.
+   Earned: recordings where the invoice settled with no self-pay
+   arrow; pausing the external settler during recording put the
+   visible participant back in the causal chain.
+
+92. **Stamp merged logs in milliseconds.**
+   A diagram that sequences events a log cannot order at second
+   resolution will contradict itself on camera.
+   Earned: `T+ss.mmm` stamps on every merged line kept the log lane
+   and the live arrows agreeing during fast settlement sequences.
+
+93. **Namespace injected class names; never let data meet layout CSS.**
+   Rendering log lines tagged by participant, a lane named "phone"
+   collided with the page's `.phone` shell rule (a fixed-height bezel):
+   the first row became 876 pixels tall and every later row painted
+   below the clip — a full log panel that rendered as one line.
+   Earned: a film matrix where every gate passed except pixel reality;
+   the fix was namespacing lane classes (`l-phone`) and renaming the
+   layout class, plus a footage gate that counts painted lines.
+
+94. **Dynamic viewport units misreport inside cross-origin iframes.**
+   `100dvh` in an app embedded by a composition page computed ~46 pixels
+   short in headless Chromium, so the app's composer never reached the
+   frame bottom and a dead band read as a cropped phone at any iframe
+   height.
+   Earned: layout arithmetic (sum the chrome, clip the bezel to the
+   app's real extent) instead of chasing the "right" iframe size.
+
+95. **Gate the footage, not just the artifacts around it.**
+   Timeline, container, and audio gates all passed while the recorded
+   pixels showed an empty log panel — the DOM held the rows, the paint
+   did not.
+    Earned: a per-take gate that extracts a frame and counts painted
+    log lines by color signature; CSS and DOM truth diverge exactly
+    where films are made.
 
 ## Adding a lesson to this file
 

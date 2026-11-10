@@ -9,50 +9,16 @@ A standalone knowledge base for the test-films practice.
 It contains documentation, templates, prompts, and sanitized examples.
 It deliberately contains no coupling to any product code.
 
-## The anonymity law (binding)
+## Project references (owner directive 2026-09-20)
 
-This repository NEVER mentions the names of other projects —
-especially private ones.
-Every lesson here was earned somewhere else and lifted in.
+The anonymity law is scrapped: content in this repo may name the
+projects it came from. Per-project demo prompts belong in their own
+repositories, next to the code they film; this repo holds the
+reusable components and sample prompts. Two rules survive:
 
-When adding or editing content:
-
-1. No project names, package names, or repository identifiers from any
-   source project.
-2. No GitHub org names, org URLs, or `owner/repo` strings.
-3. No internal hostnames, IP addresses, domains, or account numbers.
-4. No commit SHAs, issue numbers, or PR numbers from source projects.
-5. Refer to systems generically: "a router test rig", "the signer
-   service", "a two-party protocol", "the transcription worker".
-6. Public, upstream, open-source tool names are fine (Playwright,
-  ffmpeg, faster-whisper, Perfetto, mermaid, pytest). Public open
-  protocols are fine when referenced by their public spec names.
-7. Before committing, grep the diff for every name on the local
-   blacklist (see "Sanitization check" below).
-
-When vendoring a tool (a spec-quote verifier, a publisher script,
-a segmentation module):
-
-- Strip its origin identity from code, docs, and metadata.
-- Rename imports and CLI entry points to neutral names.
-- Parameterize anything project-specific (domains, account IDs,
-  database names, credentials) into placeholders.
-- Add the vendored copy's provenance to your session notes, never to
-  this repo.
-
-## Sanitization check (run before every commit)
-
-Maintain a local, non-committed blacklist file (for example
-`~/.test-films-blacklist`, one pattern per line — build it from the
-directory listing of your source workspace plus org and domain names).
-
-```bash
-git diff --cached | grep -iEf ~/.test-films-blacklist && echo "LEAK: fix before committing" && exit 1
-```
-
-Exit non-zero on any hit.
-A leak into a private repo is bad; a leak that later crosses into a
-public surface is an incident.
+1. Never commit secrets, credentials, tokens, or private hostnames.
+2. Phrasing that travels beats phrasing that points: generic wording
+   keeps a lesson usable by projects that are not the source.
 
 ## Content conventions
 
@@ -95,7 +61,7 @@ please note, simply, just (as filler)
    [docs/lessons-learned.md](docs/lessons-learned.md).
 2. Each entry carries: the rule (imperative), the mechanism (why it is
    true), and the failure that earned it (genericized).
-3. Sanitize per the anonymity law.
+3. Name the source project when it helps; never include secrets or private hostnames.
 4. If the lesson changes how a doc works, update that doc in the same
    commit.
 
@@ -113,4 +79,4 @@ please note, simply, just (as filler)
 - Small, atomic commits; imperative subject lines.
 - Never commit run outputs, recordings, or generated artifacts
   (`.gitignore` covers them).
-- The sanitization check gates every commit.
+- The staged diff carries no secrets, credentials, or private hostnames.

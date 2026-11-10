@@ -92,6 +92,27 @@ When the film needs a voice that was never spoken:
    Decide per series, declare in the manifest, never mix voices
    within one film.
 
+## The post pass (browser-recorded films, proven mechanics)
+
+When the footage is a browser test recording and the timeline comes
+from the runner (every card's window plus its spoken line, emitted as
+JSON), the narration render is mechanical:
+
+1. Anchor: the recording starts at browser-context creation, before
+   the first page load — subtract a small fixed offset from timeline
+   marks or the voice lands early.
+2. Per line: synthesize with the local OS voice, measure the take,
+   time-stretch it into its card's window (clamped around 1.45x),
+   pad when short, resample to one common rate.
+3. The mix: one silent bed the length of the film, every line
+   delayed to its window, `amix` with `duration=longest`.
+   `duration=first` ends the track at the first short segment.
+4. The container: browser video (VP8/VP9 in WebM) re-encodes to
+   H.264 for MP4 delivery with stream copy of nothing — the codecs
+   do not carry across containers.
+5. Verify by loudness probes at three timestamps, not by ear alone:
+   narration present mid-film, silence only under the closing fade.
+
 ## Subtitles and captions
 
 - Generate subtitle files (SRT/WebVTT) from `segments.json`
