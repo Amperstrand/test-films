@@ -412,9 +412,9 @@ ffmpeg post pass.
    Two dev servers on one checkout with separate ports shared one state
    directory; alarms and background turns of one executed against the
    other's data.
-   Earned: hours spent suspecting an innocent second instance while the
-   real actor was a timer on a remote host; the state directory was the
-   first thing that separated the suspects.
+   Earned: hours spent blaming external actors for mutations that the
+   shared-state inventory traced to the co-located server; listing the
+   state directory was the first thing that separated the suspects.
 
 83. **When the log omits the event, diff the state.**
    A Lightning node at info level logs nothing for invoice settlement,
@@ -440,7 +440,9 @@ ffmpeg post pass.
    A system reporting millisatoshi is read as satoshi by humans; the
    1000x phantom propagates into incident reports and screenshots.
    Earned: a "wrong by 1000x" invoice complaint that was a display-unit
-   misread; every human surface now carries satoshi beside BTC.
+   misread; every human surface now carries the raw millisatoshi value
+   beside its derived satoshi and BTC, so a faulty conversion is
+   visible at a glance instead of trusted.
 
 87. **Budget the viewport before the first take.**
    Chrome added after layout steals pixels from the protagonist.
