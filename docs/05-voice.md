@@ -143,9 +143,14 @@ reviewers stop noticing:
 
 - **Model**: Kokoro-82M (public, ONNX, ~330 MB plus a voice pack).
   Loads in about a second, synthesizes faster than real time on CPU.
-- **One process per line** keeps memory flat when rendering a matrix;
-  the one-second load cost is cheaper than a resident server for
-  short runs.
+- **One resident process per run**, not one per line: the model is
+  ~330 MB, so a per-line process makes a matrix pay that load (and
+  the one-second startup) once per cue — a resident server loads it
+  once, holds memory constant across cues, and amortizes startup over
+  the whole manuscript.
+  Use a per-line process only with a measured isolation requirement
+  (a cue that crashes the synthesizer must not take the server down),
+  and record that requirement beside the recipe.
 - **Declare the recipe** like any model input: voice id, speed factor,
   output gain — in the manifest, so the series stays consistent and
   regenerations do not drift.
